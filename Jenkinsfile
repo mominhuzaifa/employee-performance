@@ -5,5 +5,5 @@ pipeline{
 
     agent any
 
-    tools{python 'python_3.7.16'}
+    tools{python 'python_3.7'}
 }
