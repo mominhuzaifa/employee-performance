@@ -14,46 +14,41 @@ pipeline{
 
     //stages
     satges{
-        // terraform plan
-        stage('Terraform plan'){
+        // Creating AWS ECR repository using terraform 
+        stage('terraform provisioning'){
             steps{
-                echo "[+] GET TERRAFORM PLAN"
-                sh "terraform --version"
-                sh "/usr/bin/terraform plan -out=tfplan.txt -input=false -var-file='terraform.tfvars' "
+                echo "[+] Creating AWS ECR repository using terraform"
+                echo "[+] Done"
             }
-        }
-
-        // Admin Aproval
-        stage('Approval'){
-            when{
-                not{
-                    equals expected: true, actual: params.autoApprove
-                } // not ends
-            } // when ends
-            steps{
-                script{
-                    def plan=readFile 'tfplanl.txt'
-                    input message: "Do you wanna apply the plan..?"
-                    parameters: [text(name: 'Plan', description:'please review the plan', defaultValue:plan)]
-                }
-            }
-        }
-
-        // Terraform apply
-        stage('Terraform Apply'){
-            steps{
-                sh 'terraform apply tfplan.txt'
-            }
-        }
-
-        // build docker image
-        stage('building docker image'){
-
         }
 
         // docker push to AWS ECR
         stage('DockerImage Push to AWS ECR'){
-            
+            steps{
+                script{
+                    withDockerRegistry([credentialsId:'ecr:ap-south-1:ecr-credential', url:'https://150387322390.dkr.ecr.ap-south-1.amazonaws.com/employee-performance-prod']){
+                        //Docker Build
+                        sh 'docker build -t employee-performance-prod .'
+                        
+                        // Docker Tag
+                        sh 'docker tag employee-performance-prod:prod-img-v1.${BUILD_NUMBER} 150387322390.dkr.ecr.ap-south-1.amazonaws.com/employee-performance-prod:prod-img-v1.${BUILD_NUMBER}'
+                        
+                        // Docker Push
+                        sh 'docker push 150387322390.dkr.ecr.ap-south-1.amazonaws.com/employee-performance-prod:prod-img-v1.${BUILD_NUMBER}'       
+                    }
+                }
+            }
+        }
+
+        // Delete Docker image from Jenkins Server
+        stage('Delete Docker image from Jenkins'){
+            steps{
+                echo "[+] Deleting Docker image from Jenkins to freeup spaces"
+                sh 'docker stop $(docker ps -q)'    // this will stop all running container
+                sh 'docker rm $(docker ps -a -q)'   // this will remove all the containers
+                //sh 'docker image prune -a'          // this will remove all unused images that are not associated to any container (dangling images)
+                sh 'docker rmi $(docker images -q)' // this will remove all docker images.
+            }
         }
     }
 }
