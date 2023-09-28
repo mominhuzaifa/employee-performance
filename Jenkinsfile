@@ -5,15 +5,10 @@ pipeline{
 
     agent any
 
-    tools{python 'python_3.7'}
-
-    environment{
-        AWS_ACCESS_KEY_ID = credentials()
-        AWS_SCERET_ACCESS_KEY_ID = credentials()
-    }
+    tools{Python 'python_3.7'}
 
     //stages
-    satges{
+    stages{
         // Creating AWS ECR repository using terraform 
         stage('terraform provisioning'){
             steps{
