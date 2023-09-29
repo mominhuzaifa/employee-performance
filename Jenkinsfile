@@ -37,8 +37,8 @@ pipeline{
         stage('Delete Docker image from Jenkins'){
             steps{
                 echo "[+] Deleting Docker image from Jenkins to freeup spaces"
-                sh 'docker stop $(docker ps -q)'    // this will stop all running container
-                sh 'docker rm $(docker ps -a -q)'   // this will remove all the containers
+                //sh 'docker stop $(docker ps -q)'    // this will stop all running container
+                //sh 'docker rm $(docker ps -a -q)'   // this will remove all the containers
                 //sh 'docker image prune -a'          // this will remove all unused images that are not associated to any container (dangling images)
                 sh 'docker rmi $(docker images -q)' // this will remove all docker images.
             }
