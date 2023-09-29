@@ -21,7 +21,7 @@ pipeline{
                 script{
                     withDockerRegistry([credentialsId:'ecr:ap-south-1:ecr-credential', url:'https://150387322390.dkr.ecr.ap-south-1.amazonaws.com/employee-performance-prod']){
                         //Docker Build
-                        sh 'docker build -t employee-performance-prod .'
+                        sh 'docker build -t employee-performance-prod:prod-img-v1.${BUILD_NUMBER} .'
                         
                         // Docker Tag
                         sh 'docker tag employee-performance-prod:prod-img-v1.${BUILD_NUMBER} 150387322390.dkr.ecr.ap-south-1.amazonaws.com/employee-performance-prod:prod-img-v1.${BUILD_NUMBER}'
