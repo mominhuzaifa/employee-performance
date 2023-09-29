@@ -5,8 +5,6 @@ pipeline{
 
     agent any
 
-    tools{jenkins.plugins.shiningpanda.tools.PythonInstallation 'python3.7'}
-
     //stages
     stages{
         // Creating AWS ECR repository using terraform 
