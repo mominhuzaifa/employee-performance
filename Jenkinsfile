@@ -5,7 +5,7 @@ pipeline{
 
     agent any
 
-    tools{python 'Python3.7'}
+    tools{python3 'python3.7'}
 
     //stages
     stages{
