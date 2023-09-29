@@ -42,8 +42,6 @@ pipeline{
         //        //sh 'docker image prune -a'          // this will remove all unused images that are not associated to any container (dangling images)
         //        sh 'docker rmi $(docker images -q)' // this will remove all docker images.
         //    }
-        }
-
         // Deploy Stage
         stage('Deploy Flask App on AWS EKS Cluster'){
             steps{
