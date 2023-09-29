@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-performance-flask-app-deployment
+  labels:
+    app: employee-performance
+spec:
+  replicas: 1  # Number of desired replicas (adjust as needed)
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: employee-performance-flask-app-container
+        image: 150387322390.dkr.ecr.ap-south-1.amazonaws.com/employee-performance-prod:prod-img-v1.14  # Replace with your Docker image details
+        ports:
+        - containerPort: 5000  # Port your application is listening on
+        # Add additional container configuration here if needed
+      # Add volumes, secrets, environment variables, and other configuration as needed
