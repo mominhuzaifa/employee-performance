@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prod-flaskapp-application-config
+  namespace: prod
+  labels:
+    env: prod
+    app: flaskapp
+    layer: frontend
+data:
+  application.properties: |-

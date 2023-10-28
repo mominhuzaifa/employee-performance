@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prod-flaskapp-ingress
+  namespace: prod
+  labels:
+    env: prod
+    app: flaskapp-ms
+    layer: frontend
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: flaskapp.connectingclouds.in
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: prod-flaskapp-service
+                port:
+                  number: 5000	

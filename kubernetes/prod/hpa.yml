@@ -1,0 +1,17 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: prod-flaskapp-hpa
+  namespace: prod
+  labels:
+    env: prod
+    app: flaskapp
+    layer: frontend
+spec:
+  maxReplicas: 2
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: prod-flaskapp-deployment
+  targetCPUUtilizationPercentage: 5000  

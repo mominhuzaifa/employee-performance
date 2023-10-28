@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: employee-performance-flask-app-deployment
+  name: flaskapp-deployment
   labels:
     app: employee-performance
 spec:
@@ -15,8 +15,8 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: employee-performance-flask-app-container
-        image: 150387322390.dkr.ecr.ap-south-1.amazonaws.com/employee-performance-prod:prod-img-v1.14  # Replace with your Docker image details
+      - name: flaskapp-container
+        image: 150387322390.dkr.ecr.ap-south-1.amazonaws.com/employee-performance-prod:prod-img-v1.16 # Replace with your Docker image details
         ports:
         - containerPort: 5000  # Port your application is listening on
         # Add additional container configuration here if needed
